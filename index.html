@@ -1,6 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><!-- Firebase SDKs -->
+<script type="module">
+  // Import the Firebase functions
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, onSnapshot, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "aj-family-hub.firebaseapp.com",
+    projectId: "aj-family-hub",
+    storageBucket: "aj-family-hub.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Make db available globally
+  window.db = db;
+  window.collection = collection;
+  window.addDoc = addDoc;
+  window.getDocs = getDocs;
+  window.onSnapshot = onSnapshot;
+  window.updateDoc = updateDoc;
+  window.doc = doc;
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>A&J Family</title>
