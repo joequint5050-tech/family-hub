@@ -448,6 +448,48 @@
     window.addEventListener('load', ()=> navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
   }
   </script>
-</body>
+</body><script type="module">
+  // Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+  // Your Firebase config (copy from Firebase console)
+  const firebaseConfig = {
+    apiKey: "YOUR-API-KEY",
+    authDomain: "YOUR-PROJECT-ID.firebaseapp.com",
+    projectId: "YOUR-PROJECT-ID",
+    storageBucket: "YOUR-PROJECT-ID.appspot.com",
+    messagingSenderId: "XXXXXXX",
+    appId: "1:XXXX:web:XXXX"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  console.log("Firebase connected!");
+</script>
+<script type="module">
+  // Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+  // Your Firebase config (copy from Firebase console)
+  const firebaseConfig = {
+    apiKey: "YOUR-API-KEY",
+    authDomain: "YOUR-PROJECT-ID.firebaseapp.com",
+    projectId: "YOUR-PROJECT-ID",
+    storageBucket: "YOUR-PROJECT-ID.appspot.com",
+    messagingSenderId: "XXXXXXX",
+    appId: "1:XXXX:web:XXXX"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  console.log("Firebase connected!");
+</script>
+
 </html>
 
