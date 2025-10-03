@@ -8,12 +8,13 @@
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
+    apiKey:  "AIzaSyD0cf2WTcUWWwGiawa6yd_trYvPriX2dEA",
     authDomain: "aj-family-hub.firebaseapp.com",
     projectId: "aj-family-hub",
     storageBucket: "aj-family-hub.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    messagingSenderId: "889796675073",
+    appId: "1:889796675073:web:b97ca73d02e978f6bfddf00",
+    measurementId: "G-KC61CBMS5C"
   };
 
   // Initialize Firebase
@@ -121,7 +122,46 @@
     .pill{font-size:.75rem; padding:3px 8px; border-radius:99px; background:rgba(255,255,255,.09); border:1px solid var(--border)}
     .hidden{display:none}
   </style>
-</head>
+</head><!-- Firebase SDKs -->
+<script type="module">
+  // Import Firebase libraries
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0cf2WTcUWWwGiawa6yd_trYvPriX2dEA",
+    authDomain: "aj-family-hub.firebaseapp.com",
+    projectId: "aj-family-hub",
+    storageBucket: "aj-family-hub.appspot.com",
+    messagingSenderId: "889796675073",
+    appId: "1:889796675073:web:b97ca73d02e978f6bfddf00",
+    measurementId: "G-KC61CBMS5C"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Example: Add a task
+  async function addTask(task) {
+    await addDoc(collection(db, "tasks"), { text: task });
+    alert("Task added: " + task);
+  }
+
+  // Example: Load tasks
+  async function loadTasks() {
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data().text}`);
+    });
+  }
+
+  // Run test
+  addTask("First family task!");
+  loadTasks();
+</script>
+
 <body>
   <header>
     <div class="container">
