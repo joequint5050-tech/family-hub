@@ -1,3 +1,0 @@
-git rm DELETE_ME.txt
-git commit -m "Delete DELETE_ME.txt"
-git push
