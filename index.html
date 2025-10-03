@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Family Hub</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#4a5568">
+
+  <!-- iOS support -->
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Simple styles -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #4a5568;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background: #2d3748;
+      padding: 0.5rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+    }
+    section {
+      padding: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Family Hub</h1>
+    <p>Notes • Calendar • Tasks • Grocery List</p>
+  </header>
+
+  <nav>
+    <a href="#notes">Notes</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#tasks">Tasks</a>
+    <a href="#grocery">Grocery</a>
+  </nav>
+
+  <section id="notes">
+    <h2>Notes</h2>
+    <p>Quick notes for the family.</p>
+  </section>
+
+  <section id="calendar">
+    <h2>Calendar</h2>
+    <p>Upcoming family events.</p>
+  </section>
+
+  <section id="tasks">
+    <h2>Tasks / Chores</h2>
+    <p>Assign and check off home chores.</p>
+  </section>
+
+  <section id="grocery">
+    <h2>Grocery List</h2>
+    <ul>
+      <li><input type="checkbox"> Milk</li>
+      <li><input type="checkbox"> Bread</li>
+      <li><input type="checkbox"> Eggs</li>
+    </ul>
+  </section>
+
+  <!-- Service worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker registered"))
+        .catch(err => console.error("SW error:", err));
+    }
+  </script>
+</body>
+</html>
