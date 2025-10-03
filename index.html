@@ -1,92 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Family Hub</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>A&J Family</title>
 
-  <!-- PWA Manifest -->
+  <!-- PWA manifest + iOS icon -->
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#4a5568">
-
-  <!-- iOS support -->
+  <meta name="theme-color" content="#6236ff">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- Simple styles -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9fafb;
-      margin: 0;
-      padding: 0;
+    :root{
+      --bg:#0b1020;
+      --bg2:#0e162f;
+      --card:#111831;
+      --muted:#a9b3d6;
+      --text:#f7f8ff;
+      --brand1:#7c3aed; /* violet */
+      --brand2:#06b6d4; /* cyan */
+      --brand3:#22c55e; /* green */
+      --danger:#ef4444;
+      --border:#1f2a4a;
+      --shadow:0 10px 25px rgba(0,0,0,.30);
     }
-    header {
-      background: #4a5568;
-      color: #fff;
-      padding: 1rem;
-      text-align: center;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background:linear-gradient(135deg,var(--bg),var(--bg2));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji", sans-serif;
     }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      background: #2d3748;
-      padding: 0.5rem;
+    .container{max-width:980px;margin:0 auto;padding:16px}
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(6px);
+      background:linear-gradient(135deg,rgba(124,58,237,.9),rgba(6,182,212,.9));
+      border-bottom:1px solid rgba(255,255,255,.1);
+      box-shadow:var(--shadow)
     }
-    nav a {
-      color: #fff;
-      text-decoration: none;
+    .brand{display:flex;align-items:center;gap:.75rem; padding:16px}
+    .brand .logo{
+      width:40px;height:40px;border-radius:12px;
+      background:conic-gradient(from 180deg,var(--brand1),var(--brand2),var(--brand3));
+      box-shadow:0 6px 18px rgba(124,58,237,.35)
     }
-    section {
-      padding: 1.5rem;
+    .brand h1{margin:0;font-size:1.35rem;letter-spacing:.5px}
+    .subtitle{margin:-4px 0 10px 56px; color:#eef; opacity:.9; font-size:.9rem}
+
+    /* tabs */
+    .tabs{display:flex;gap:8px;flex-wrap:wrap; padding:0 16px 16px}
+    .tab-btn{
+      border:1px solid rgba(255,255,255,.12); background:#0e1530; color:#eaf;
+      padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600;
+      transition:.18s transform ease, .18s background ease, .18s color ease;
     }
+    .tab-btn:hover{transform:translateY(-1px)}
+    .tab-btn.active{background:linear-gradient(135deg,var(--brand1),var(--brand2)); border-color:transparent; color:white}
+
+    /* cards */
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:var(--shadow);
+    }
+    .grid{display:grid; gap:16px}
+    @media(min-width:700px){ .grid.cols-2{grid-template-columns:1fr 1fr} }
+
+    h2{margin:0 0 10px;font-size:1.1rem;letter-spacing:.3px}
+    label{font-size:.9rem;color:var(--muted)}
+    input, textarea, select{
+      width:100%; padding:12px 12px; color:var(--text); background:#0c132b; border:1px solid var(--border);
+      border-radius:10px; outline:none;
+    }
+    textarea{min-height:110px; resize:vertical}
+    .row{display:flex;gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+      padding:10px 14px; border-radius:10px; border:1px solid transparent; cursor:pointer; font-weight:700;
+      background:linear-gradient(135deg,var(--brand1),var(--brand2)); color:white;
+      box-shadow:0 10px 18px rgba(124,58,237,.25);
+    }
+    .btn.secondary{background:#0e1530; color:#dfe7ff; border-color:var(--border)}
+    .btn.danger{background:linear-gradient(135deg,#ef4444,#f97316)}
+    .list{list-style:none; padding:0; margin:0}
+    .item{
+      display:flex; align-items:center; gap:.75rem; justify-content:space-between;
+      padding:10px 12px; border:1px solid var(--border); background:#0c132b; border-radius:12px;
+    }
+    .muted{color:var(--muted)}
+    .strike{text-decoration:line-through; opacity:.6}
+    small{color:var(--muted)}
+    footer{opacity:.7; text-align:center; padding:30px 0}
+    .pill{font-size:.75rem; padding:3px 8px; border-radius:99px; background:rgba(255,255,255,.09); border:1px solid var(--border)}
+    .hidden{display:none}
   </style>
 </head>
 <body>
   <header>
-    <h1>Family Hub</h1>
-    <p>Notes • Calendar • Tasks • Grocery List</p>
+    <div class="container">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>A&J Family</h1>
+          <div class="subtitle">Communication Hub • Notes • Calendar • Tasks • Grocery</div>
+        </div>
+      </div>
+
+      <div class="tabs container" id="tabs">
+        <button class="tab-btn active" data-tab="notes">📝 Notes</button>
+        <button class="tab-btn" data-tab="tasks">✅ Tasks / Chores</button>
+        <button class="tab-btn" data-tab="grocery">🛒 Grocery</button>
+        <button class="tab-btn" data-tab="calendar">📅 Calendar</button>
+      </div>
+    </div>
   </header>
 
-  <nav>
-    <a href="#notes">Notes</a>
-    <a href="#calendar">Calendar</a>
-    <a href="#tasks">Tasks</a>
-    <a href="#grocery">Grocery</a>
-  </nav>
+  <main class="container" style="margin-top:12px">
+    <!-- NOTES -->
+    <section id="notes" class="tabpanel">
+      <div class="grid cols-2">
+        <div class="card">
+          <h2>Add a note</h2>
+          <label for="noteText">Message</label>
+          <textarea id="noteText" placeholder="Type a note for the family…"></textarea>
+          <div class="row" style="margin-top:10px">
+            <input id="noteAuthor" placeholder="Author (optional)">
+            <button class="btn" id="addNote">Add Note</button>
+          </div>
+          <small class="muted">Notes are stored on this device. We can add cloud sync later.</small>
+        </div>
 
-  <section id="notes">
-    <h2>Notes</h2>
-    <p>Quick notes for the family.</p>
-  </section>
+        <div class="card">
+          <h2>Notes</h2>
+          <ul id="notesList" class="grid" style="gap:10px"></ul>
+          <div class="row" style="margin-top:10px; justify-content:flex-end">
+            <button class="btn secondary" id="clearNotes">Clear All</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="calendar">
-    <h2>Calendar</h2>
-    <p>Upcoming family events.</p>
-  </section>
+    <!-- TASKS -->
+    <section id="tasks" class="tabpanel hidden">
+      <div class="card">
+        <h2>Add a task / chore</h2>
+        <div class="row">
+          <input id="taskText" placeholder="Take out trash, vacuum living room…">
+          <select id="taskAssignee" style="max-width:180px">
+            <option value="">Unassigned</option>
+            <option>Alex</option>
+            <option>Jamie</option>
+            <option>Mom</option>
+            <option>Dad</option>
+          </select>
+          <button class="btn" id="addTask">Add</button>
+        </div>
+        <small class="muted">Tip: check items as you complete them. Use “Archive done”.</small>
+      </div>
 
-  <section id="tasks">
-    <h2>Tasks / Chores</h2>
-    <p>Assign and check off home chores.</p>
-  </section>
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h2>To-do</h2>
+          <ul id="tasksList" class="grid" style="gap:10px"></ul>
+          <div class="row" style="justify-content:flex-end; margin-top:10px">
+            <button class="btn secondary" id="archiveDone">Archive done</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Archived</h2>
+          <ul id="archiveList" class="grid" style="gap:10px"></ul>
+          <div class="row" style="justify-content:flex-end; margin-top:10px">
+            <button class="btn secondary" id="clearArchive">Clear archive</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="grocery">
-    <h2>Grocery List</h2>
-    <ul>
-      <li><input type="checkbox"> Milk</li>
-      <li><input type="checkbox"> Bread</li>
-      <li><input type="checkbox"> Eggs</li>
-    </ul>
-  </section>
+    <!-- GROCERY -->
+    <section id="grocery" class="tabpanel hidden">
+      <div class="card">
+        <h2>Add grocery item</h2>
+        <div class="row">
+          <input id="groText" placeholder="Apples, milk, pasta…">
+          <input id="groQty" type="number" min="1" value="1" style="max-width:120px">
+          <button class="btn" id="addGro">Add</button>
+        </div>
+        <small class="muted">Checked items drop to the bottom. Use “Remove checked”.</small>
+      </div>
 
-  <!-- Service worker -->
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h2>List</h2>
+          <ul id="groList" class="grid" style="gap:10px"></ul>
+          <div class="row" style="justify-content:flex-end; margin-top:10px">
+            <button class="btn secondary" id="removeChecked">Remove checked</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Quick presets</h2>
+          <div class="grid">
+            <div class="row">
+              <button class="btn secondary" data-preset="Milk">Milk</button>
+              <button class="btn secondary" data-preset="Bread">Bread</button>
+              <button class="btn secondary" data-preset="Eggs">Eggs</button>
+              <button class="btn secondary" data-preset="Bananas">Bananas</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section id="calendar" class="tabpanel hidden">
+      <div class="card">
+        <h2>Add an event</h2>
+        <div class="row">
+          <input id="evTitle" placeholder="Birthday dinner, game night…">
+          <input id="evDate" type="date" style="max-width:170px">
+          <button class="btn" id="addEvent">Add</button>
+        </div>
+        <small class="muted">Simple list for now. We can add a real calendar later.</small>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>Upcoming</h2>
+        <ul id="evList" class="grid" style="gap:10px"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container muted">
+      <span class="pill">A&J Family</span> • Built for GitHub Pages • Offline ready
+    </div>
+  </footer>
+
   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("Service Worker registered"))
-        .catch(err => console.error("SW error:", err));
+  // ---------- helpers ----------
+  const $ = (sel, el=document) => el.querySelector(sel);
+  const $$ = (sel, el=document) => [...el.querySelectorAll(sel)];
+  const store = {
+    get(k, d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d }},
+    set(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+  };
+  const ns = 'ajhub-v1';
+
+  // ---------- TABS ----------
+  const panels = $$('.tabpanel');
+  $$('#tabs .tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      $$('#tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const id = btn.dataset.tab;
+      panels.forEach(p=>p.classList.toggle('hidden', p.id!==id));
+    });
+  });
+
+  // ---------- NOTES ----------
+  const notesKey = ns+'-notes';
+  let notes = store.get(notesKey, []);
+  const notesList = $('#notesList');
+
+  function renderNotes(){
+    notesList.innerHTML = '';
+    if(notes.length===0){ notesList.innerHTML = '<p class="muted">No notes yet.</p>'; return; }
+    notes.slice().reverse().forEach((n,idx)=>{
+      const li = document.createElement('li');
+      li.className='item';
+      li.innerHTML = `
+        <div style="flex:1">
+          <div>${n.text}</div>
+          <small class="muted">${n.author ? '— '+n.author+' · ' : ''}${new Date(n.time).toLocaleString()}</small>
+        </div>
+        <div class="row">
+          <button class="btn secondary" data-edit="${n.id}">Edit</button>
+          <button class="btn danger" data-del="${n.id}">Delete</button>
+        </div>
+      `;
+      notesList.appendChild(li);
+    });
+  }
+  function addNote(){
+    const text = $('#noteText').value.trim();
+    if(!text) return;
+    notes.push({id:crypto.randomUUID(), text, author:$('#noteAuthor').value.trim(), time:Date.now()});
+    store.set(notesKey, notes); $('#noteText').value=''; $('#noteAuthor').value=''; renderNotes();
+  }
+  notesList.addEventListener('click', e=>{
+    const id = e.target.dataset.del || e.target.dataset.edit;
+    if(!id) return;
+    const i = notes.findIndex(n=>n.id===id);
+    if(i<0) return;
+    if(e.target.dataset.del){ notes.splice(i,1); store.set(notesKey,notes); renderNotes(); }
+    if(e.target.dataset.edit){
+      const t = prompt('Edit note:', notes[i].text); if(t!==null){ notes[i].text=t.trim(); store.set(notesKey,notes); renderNotes(); }
     }
+  });
+  $('#addNote').addEventListener('click', addNote);
+  $('#clearNotes').addEventListener('click', ()=>{ if(confirm('Clear all notes?')){ notes=[]; store.set(notesKey,notes); renderNotes(); }});
+  renderNotes();
+
+  // ---------- TASKS ----------
+  const taskKey = ns+'-tasks';
+  const archKey = ns+'-arch';
+  let tasks = store.get(taskKey, []);
+  let archive = store.get(archKey, []);
+  const tasksList = $('#tasksList'), archList = $('#archiveList');
+
+  function taskItem(t){
+    const li = document.createElement('li');
+    li.className='item';
+    li.innerHTML = `
+      <div class="${t.done?'strike':''}">
+        <input type="checkbox" ${t.done?'checked':''} data-toggle="${t.id}"> 
+        <strong>${t.text}</strong> ${t.assignee?`<span class="pill" style="margin-left:6px">${t.assignee}</span>`:''}
+      </div>
+      <div class="row">
+        <button class="btn secondary" data-edit-task="${t.id}">Edit</button>
+        <button class="btn danger" data-del-task="${t.id}">Delete</button>
+      </div>`;
+    return li;
+  }
+  function renderTasks(){
+    tasksList.innerHTML=''; archList.innerHTML='';
+    tasks.forEach(t=>tasksList.appendChild(taskItem(t)));
+    archive.forEach(t=>{
+      const li=document.createElement('li'); li.className='item muted';
+      li.innerHTML=`<div>${t.text} ${t.assignee?`<span class="pill" style="margin-left:6px">${t.assignee}</span>`:''}</div>`;
+      archList.appendChild(li);
+    });
+  }
+  function addTask(){
+    const txt=$('#taskText').value.trim(); if(!txt) return;
+    tasks.push({id:crypto.randomUUID(), text:txt, assignee:$('#taskAssignee').value, done:false});
+    store.set(taskKey,tasks); $('#taskText').value=''; renderTasks();
+  }
+  tasksList.addEventListener('change',e=>{
+    const id=e.target.dataset.toggle; if(!id) return;
+    const t=tasks.find(x=>x.id===id); t.done=e.target.checked; store.set(taskKey,tasks); renderTasks();
+  });
+  tasksList.addEventListener('click',e=>{
+    const id=e.target.dataset.delTask || e.target.dataset.editTask; if(!id) return;
+    const i=tasks.findIndex(t=>t.id===id);
+    if(e.target.dataset.delTask){ tasks.splice(i,1); store.set(taskKey,tasks); renderTasks(); }
+    if(e.target.dataset.editTask){
+      const t=prompt('Edit task:', tasks[i].text); if(t!==null){ tasks[i].text=t.trim(); store.set(taskKey,tasks); renderTasks(); }
+    }
+  });
+  $('#archiveDone').addEventListener('click', ()=>{
+    const done = tasks.filter(t=>t.done); tasks = tasks.filter(t=>!t.done);
+    archive = archive.concat(done); store.set(taskKey,tasks); store.set(archKey,archive); renderTasks();
+  });
+  $('#clearArchive').addEventListener('click', ()=>{ if(confirm('Clear archived tasks?')){ archive=[]; store.set(archKey,archive); renderTasks(); }});
+  $('#addTask').addEventListener('click', addTask);
+  renderTasks();
+
+  // ---------- GROCERY ----------
+  const groKey = ns+'-gro';
+  let groceries = store.get(groKey, []);
+  const groList = $('#groList');
+  function renderGro(){
+    // checked go to bottom
+    const sorted = [...groceries].sort((a,b)=>Number(a.checked)-Number(b.checked));
+    groList.innerHTML='';
+    sorted.forEach(g=>{
+      const li=document.createElement('li'); li.className='item';
+      li.innerHTML=`
+        <div class="${g.checked?'strike':''}">
+          <input type="checkbox" data-gro-toggle="${g.id}" ${g.checked?'checked':''}>
+          ${g.text} <span class="muted">× ${g.qty}</span>
+        </div>
+        <div class="row">
+          <button class="btn secondary" data-gro-edit="${g.id}">Edit</button>
+          <button class="btn danger" data-gro-del="${g.id}">Delete</button>
+        </div>`;
+      groList.appendChild(li);
+    });
+  }
+  function addGro(text, qty){
+    text = (text ?? $('#groText').value).trim(); if(!text) return;
+    qty = Number(qty ?? $('#groQty').value || 1);
+    groceries.push({id:crypto.randomUUID(), text, qty, checked:false});
+    store.set(groKey,groceries); $('#groText').value=''; $('#groQty').value=1; renderGro();
+  }
+  $('#addGro').addEventListener('click', ()=>addGro());
+  $('[data-preset="Milk"]').onclick=()=>addGro('Milk',1);
+  $('[data-preset="Bread"]').onclick=()=>addGro('Bread',1);
+  $('[data-preset="Eggs"]').onclick=()=>addGro('Eggs',1);
+  $('[data-preset="Bananas"]').onclick=()=>addGro('Bananas',6);
+
+  groList.addEventListener('change', e=>{
+    const id=e.target.dataset.groToggle; if(!id) return;
+    const g=groceries.find(x=>x.id===id); g.checked=e.target.checked; store.set(groKey,groceries); renderGro();
+  });
+  groList.addEventListener('click', e=>{
+    const id=e.target.dataset.groDel || e.target.dataset.groEdit; if(!id) return;
+    const i=groceries.findIndex(x=>x.id===id);
+    if(e.target.dataset.groDel){ groceries.splice(i,1); store.set(groKey,groceries); renderGro(); }
+    if(e.target.dataset.groEdit){
+      const txt=prompt('Item name:', groceries[i].text); if(txt===null) return;
+      const qty=prompt('Quantity:', groceries[i].qty); if(qty===null) return;
+      groceries[i].text=txt.trim(); groceries[i].qty=Number(qty)||1; store.set(groKey,groceries); renderGro();
+    }
+  });
+  $('#removeChecked').addEventListener('click', ()=>{
+    groceries = groceries.filter(g=>!g.checked); store.set(groKey,groceries); renderGro();
+  });
+  renderGro();
+
+  // ---------- CALENDAR ----------
+  const evKey = ns+'-events';
+  let events = store.get(evKey, []);
+  const evList = $('#evList');
+  function renderEvents(){
+    events.sort((a,b)=>a.date.localeCompare(b.date));
+    evList.innerHTML='';
+    events.forEach(ev=>{
+      const li=document.createElement('li'); li.className='item';
+      li.innerHTML=`<div><strong>${ev.title}</strong> <span class="muted">— ${ev.date}</span></div>
+      <div class="row">
+        <button class="btn secondary" data-ev-edit="${ev.id}">Edit</button>
+        <button class="btn danger" data-ev-del="${ev.id}">Delete</button>
+      </div>`;
+      evList.appendChild(li);
+    });
+    if(events.length===0) evList.innerHTML='<p class="muted">No events yet.</p>';
+  }
+  function addEvent(){
+    const t=$('#evTitle').value.trim(); const d=$('#evDate').value;
+    if(!t||!d) return;
+    events.push({id:crypto.randomUUID(), title:t, date:d});
+    store.set(evKey,events); $('#evTitle').value=''; $('#evDate').value=''; renderEvents();
+  }
+  $('#addEvent').addEventListener('click', addEvent);
+  evList.addEventListener('click', e=>{
+    const id=e.target.dataset.evDel || e.target.dataset.evEdit; if(!id) return;
+    const i=events.findIndex(ev=>ev.id===id);
+    if(e.target.dataset.evDel){ events.splice(i,1); store.set(evKey,events); renderEvents(); }
+    if(e.target.dataset.evEdit){
+      const t=prompt('Event title:', events[i].title); if(t===null) return;
+      const d=prompt('Date (YYYY-MM-DD):', events[i].date); if(d===null) return;
+      events[i].title=t.trim(); events[i].date=d.trim(); store.set(evKey,events); renderEvents();
+    }
+  });
+  renderEvents();
+
+  // ---------- SW registration ----------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=> navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+  }
   </script>
 </body>
 </html>
+
