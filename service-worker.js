@@ -1,3 +1,12 @@
+const CACHE_NAME = "familyhub-v1";
+const ASSETS = [
+  "./",
+  "./index.html",
+  "./manifest.webmanifest",
+  "./assets/icons/icon-192.png",
+  "./assets/icons/icon-512.png",
+  "./assets/icons/maskable-512.png"
+];
 // Family Hub Service Worker
 const CACHE_NAME = "familyhub-v1";
 const ASSETS = [
